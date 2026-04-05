@@ -26,32 +26,53 @@ body {
 
 /* ── Header ───────────────────────────────────────────────────────── */
 header {
-  text-align: center;
-  padding: 6rem 1rem 5rem;
-  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-              url('/static/kevin_lucie.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e5 100%);
   border-bottom: 1px solid #ecdfc8;
-  min-height: 400px;
+  min-height: 320px;
+}
+
+.header-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
 }
 
-.header-deco { font-size: 1.5rem; color: var(--gold-l); letter-spacing: .5rem; }
+.header-photo {
+  flex-shrink: 0;
+  width: 340px;
+}
+
+.header-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  header { flex-direction: column; }
+  .header-photo { width: 100%; height: 250px; }
+}
+
+.header-deco { font-size: 1.5rem; color: var(--gold); letter-spacing: .5rem; }
 
 .couple-name {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 600;
-  color: #fff;
+  color: var(--dark);
   margin: .4rem 0 .6rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
 .wedding-info {
   font-size: .65rem;
-  color: rgba(255,255,255,.75);
+  color: var(--mid);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -59,10 +80,9 @@ header {
 .wedding-quote {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(3rem, 8vw, 4.5rem);
-  color: var(--gold-l);
+  color: var(--gold);
   margin-top: .5rem;
   margin-bottom: .2rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
 /* ── Main ─────────────────────────────────────────────────────────── */
