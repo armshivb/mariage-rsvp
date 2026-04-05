@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: mariage-rsvp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: COUPLE_NAMES
+        value: Keke & Lucie
+      - key: WEDDING_DATE
+        value: Samedi 5 Septembre 2026
+      - key: DB_PATH
+        value: /data/mariage.db
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

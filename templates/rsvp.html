@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Bonjour, {{ guest.prenom }} 👋</h2>
+
+  {% if guest.response != "pending" %}
+  <div class="alert-info">
+    Vous avez déjà répondu. Vous pouvez modifier votre réponse ci-dessous.
+  </div>
+  {% endif %}
+
+  <form method="post" action="/rsvp/{{ guest.code }}">
+
+    <fieldset class="choice-group">
+      <legend>Serez-vous présent·e ?</legend>
+      <label class="choice {% if guest.response == 'yes' %}selected{% endif %}">
+        <input type="radio" name="response" value="yes" {% if guest.response == 'yes' %}checked{% endif %} required />
+        <span class="choice-icon">🎉</span>
+        <span>Oui, j'y serai !</span>
+      </label>
+      <label class="choice {% if guest.response == 'no' %}selected{% endif %}">
+        <input type="radio" name="response" value="no" {% if guest.response == 'no' %}checked{% endif %} />
+        <span class="choice-icon">😢</span>
+        <span>Non, je ne pourrai pas</span>
+      </label>
+    </fieldset>
+
+    <div class="field" id="plus-one-field">
+      <label for="plus_one">Nombre d'accompagnants (en plus de vous)</label>
+      <input
+        type="number"
+        id="plus_one"
+        name="plus_one"
+        min="0"
+        max="10"
+        value="{{ guest.plus_one }}"
+      />
+    </div>
+
+    <div class="field">
+      <label for="message">Un mot pour les mariés (optionnel)</label>
+      <textarea id="message" name="message" rows="3" placeholder="Vos vœux, questions...">{{ guest.message }}</textarea>
+    </div>
+
+    <button type="submit" class="btn-primary">Confirmer ma réponse</button>
+  </form>
+</div>
+
+<script>
+  const radios = document.querySelectorAll('input[name="response"]');
+  const plusOneField = document.getElementById('plus-one-field');
+
+  function updatePlusOne() {
+    const val = document.querySelector('input[name="response"]:checked')?.value;
+    plusOneField.style.display = val === 'yes' ? 'flex' : 'none';
+  }
+
+  radios.forEach(r => r.addEventListener('change', updatePlusOne));
+
+  // Style dynamique sur sélection
+  document.querySelectorAll('.choice').forEach(label => {
+    label.querySelector('input').addEventListener('change', () => {
+      document.querySelectorAll('.choice').forEach(l => l.classList.remove('selected'));
+      label.classList.add('selected');
+    });
+  });
+
+  updatePlusOne();
+</script>
+{% endblock %}

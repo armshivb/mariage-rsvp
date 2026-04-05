@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block main_class %}admin-main{% endblock %}
+{% block content %}
+<div class="admin-wrap">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+    <h2 style="margin:0">Tableau de bord 💍</h2>
+    <a href="/admin/export-pdf" class="btn-primary" style="width:auto;text-decoration:none">⬇ Exporter en PDF</a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat stat-yes">
+      <span class="stat-number">{{ yes_count }}</span>
+      <span class="stat-label">Présent·e·s</span>
+    </div>
+    <div class="stat stat-no">
+      <span class="stat-number">{{ no_count }}</span>
+      <span class="stat-label">Absent·e·s</span>
+    </div>
+    <div class="stat stat-pending">
+      <span class="stat-number">{{ pending }}</span>
+      <span class="stat-label">En attente</span>
+    </div>
+    <div class="stat stat-total">
+      <span class="stat-number">{{ guests|length }}</span>
+      <span class="stat-label">Invités total</span>
+    </div>
+  </div>
+
+  <!-- Taux de réponse -->
+  <div class="card taux-card">
+    <div class="taux-header">
+      <h3 style="margin:0">Taux de réponse</h3>
+      <form method="post" action="/admin/set-expected" class="inline-form" style="margin:0">
+        <label style="font-size:.85rem;color:var(--mid);white-space:nowrap">Invités attendus :</label>
+        <input type="number" name="expected" min="0" value="{{ expected }}"
+               style="width:90px;border:1.5px solid #ddd;border-radius:8px;padding:.4rem .7rem;font-size:1rem" />
+        <button type="submit" class="btn-primary" style="width:auto;padding:.45rem 1rem">Valider</button>
+      </form>
+    </div>
+
+    {% if expected > 0 %}
+    <div class="taux-bars">
+      <div class="taux-row">
+        <span class="taux-label">Ont répondu</span>
+        <div class="bar-wrap">
+          <div class="bar bar-gold" style="width:{{ taux_reponse }}%"></div>
+        </div>
+        <span class="taux-val">{{ repondu }} / {{ expected }} &nbsp;({{ taux_reponse }}%)</span>
+      </div>
+      <div class="taux-row">
+        <span class="taux-label">Confirmés présents</span>
+        <div class="bar-wrap">
+          <div class="bar bar-green" style="width:{{ taux_presence }}%"></div>
+        </div>
+        <span class="taux-val">{{ yes_count }} / {{ expected }} &nbsp;({{ taux_presence }}%)</span>
+      </div>
+    </div>
+    {% else %}
+    <p style="color:var(--mid);font-size:.9rem;margin-top:.8rem">Entrez le nombre d'invités attendus pour voir le taux de réponse.</p>
+    {% endif %}
+  </div>
+
+  <!-- Import CSV -->
+  {% if request.query_params.get("imported") %}
+  <div class="alert-info" style="margin-bottom:1rem">
+    ✅ {{ request.query_params.get("imported") }} invité(s) importé(s) avec succès.
+  </div>
+  {% endif %}
+
+  <div class="card" style="margin-bottom:1rem">
+    <h3>Importer une liste CSV</h3>
+    <p style="font-size:.88rem;color:var(--mid);margin-bottom:.8rem">
+      Format attendu : une ligne par invité → <code>Prénom,Nom</code><br>
+      La première ligne peut être un en-tête (elle sera ignorée automatiquement).
+    </p>
+    <form method="post" action="/admin/import-csv" enctype="multipart/form-data" class="inline-form">
+      <input type="file" name="file" accept=".csv,.txt" required style="flex:1;border:1.5px solid #ddd;border-radius:8px;padding:.55rem .8rem;font-size:.9rem;background:#fafafa" />
+      <button type="submit" class="btn-primary">Importer</button>
+    </form>
+  </div>
+
+  <!-- Ajouter un invité -->
+  <div class="card admin-add">
+    <h3>Ajouter un invité</h3>
+    <form method="post" action="/admin/add-guest" class="inline-form">
+      <input type="text" name="prenom" placeholder="Prénom" required />
+      <input type="text" name="nom" placeholder="Nom" required />
+      <button type="submit" class="btn-primary">Ajouter</button>
+    </form>
+  </div>
+
+  <!-- Liste des invités -->
+  <div class="card card-full">
+    <h3>Liste des invités</h3>
+    <div class="table-wrap">
+    <table class="guest-table">
+      <thead>
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Code</th>
+          <th>Réponse</th>
+          <th>Accompagnants</th>
+          <th>Message</th>
+          <th>Mis à jour</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for g in guests %}
+        <tr class="row-{{ g.response }}">
+          <td><strong>{{ g.prenom }}</strong></td>
+          <td><strong>{{ g.nom }}</strong></td>
+          <td><code class="code-badge">{{ g.code }}</code></td>
+          <td>
+            {% if g.response == "yes" %}
+              <span class="badge badge-yes">Présent·e 🎉</span>
+            {% elif g.response == "no" %}
+              <span class="badge badge-no">Absent·e 😢</span>
+            {% else %}
+              <span class="badge badge-pending">En attente ⏳</span>
+            {% endif %}
+          </td>
+          <td>{{ g.plus_one }}</td>
+          <td class="msg-cell">{{ g.message or "–" }}</td>
+          <td>{{ g.updated_at.strftime("%d/%m %H:%M") if g.updated_at else "–" }}</td>
+          <td>
+            <form method="post" action="/admin/delete-guest/{{ g.id }}"
+                  onsubmit="return confirm('Supprimer {{ g.prenom }} {{ g.nom }} ?')">
+              <button type="submit" class="btn-danger">✕</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" style="text-align:center;color:#aaa">Aucun invité pour l'instant.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

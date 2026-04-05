@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card text-center">
+  {% if guest.response == "yes" %}
+    <div class="big-icon">🎊</div>
+    <h2>Merci {{ guest.prenom }} !</h2>
+    <p class="subtitle">
+      Votre présence nous comble de joie.
+      {% if guest.plus_one > 0 %}
+        Nous attendons <strong>{{ guest.plus_one + 1 }} personne(s)</strong> de votre côté.
+      {% endif %}
+    </p>
+    <p>Rendez-vous le <strong>{{ date }}</strong> 🥂</p>
+  {% else %}
+    <div class="big-icon">💌</div>
+    <h2>Merci pour votre réponse, {{ guest.prenom }}.</h2>
+    <p class="subtitle">Nous sommes tristes de ne pas pouvoir vous avoir parmi nous, mais nous pensons à vous !</p>
+  {% endif %}
+
+  {% if guest.message %}
+  <blockquote>« {{ guest.message }} »</blockquote>
+  {% endif %}
+
+  <a href="/rsvp/{{ guest.code }}" class="btn-secondary">Modifier ma réponse</a>
+</div>
+{% endblock %}
