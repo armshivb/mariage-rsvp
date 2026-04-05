@@ -49,6 +49,13 @@ header {
   text-transform: uppercase;
 }
 
+.wedding-quote {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--gold);
+  margin-top: .6rem;
+}
+
 /* ── Main ─────────────────────────────────────────────────────────── */
 main {
   flex: 1;
