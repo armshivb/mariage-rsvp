@@ -45,8 +45,12 @@ def ctx(request: Request, **kwargs):
     }
 
 def tr(request: Request, name: str, **kwargs):
-    """Wrapper compatible nouvelle API Starlette."""
-    return templates.TemplateResponse(name=name, context=ctx(request, **kwargs))
+    """Wrapper compatible toutes versions Starlette."""
+    return templates.TemplateResponse(request=request, name=name, context=kwargs | {
+        "couple": COUPLE_NAMES,
+        "date": WEDDING_DATE,
+        "place": WEDDING_PLACE,
+    })
 
 # ── Page d'accueil / saisie du code ────────────────────────────────────────────
 @app.get("/", response_class=HTMLResponse)
