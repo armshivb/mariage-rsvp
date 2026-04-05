@@ -12,7 +12,7 @@ services:
       - key: WEDDING_DATE
         value: Samedi 5 Septembre 2026
       - key: DB_PATH
-        value: /data/mariage.db
+        value: /opt/render/project/src/mariage.db
     disk:
       name: data
       mountPath: /data
