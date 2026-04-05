@@ -28,23 +28,25 @@ body {
 header {
   text-align: center;
   padding: 3rem 1rem 2rem;
-  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e5 100%);
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+              url('/static/kevin_lucie.jpg') center/cover no-repeat;
   border-bottom: 1px solid #ecdfc8;
 }
 
-.header-deco { font-size: 1.5rem; color: var(--gold); letter-spacing: .5rem; }
+.header-deco { font-size: 1.5rem; color: var(--gold-l); letter-spacing: .5rem; }
 
 .couple-name {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 600;
-  color: var(--dark);
+  color: #fff;
   margin: .4rem 0 .6rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
 .wedding-info {
   font-size: .65rem;
-  color: var(--mid);
+  color: rgba(255,255,255,.75);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -52,9 +54,10 @@ header {
 .wedding-quote {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(3rem, 8vw, 4.5rem);
-  color: var(--gold);
+  color: var(--gold-l);
   margin-top: .5rem;
   margin-bottom: .2rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
 /* ── Main ─────────────────────────────────────────────────────────── */
