@@ -11,15 +11,11 @@
 </head>
 <body>
   <header>
-    <div class="header-text">
-      <div class="header-deco">✦</div>
-      <h1 class="couple-name">{{ couple }}</h1>
-      <p class="wedding-quote">On se dit enfin oui</p>
-      <p class="wedding-info">{{ date }}</p>
-    </div>
-    <div class="header-photo">
-      <img src="/static/kevin_lucie.jpg" alt="Kévin & Lucie" />
-    </div>
+    <div class="header-deco">✦</div>
+    <h1 class="couple-name">{{ couple }}</h1>
+    <p class="wedding-quote">On se dit enfin oui</p>
+    <img class="header-photo" src="/static/kevin_lucie.jpg" alt="Kévin & Lucie" />
+    <p class="wedding-info">{{ date }}</p>
   </header>
   <main class="{% block main_class %}{% endblock %}">
     {% block content %}{% endblock %}
