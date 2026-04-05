@@ -27,10 +27,15 @@ body {
 /* ── Header ───────────────────────────────────────────────────────── */
 header {
   text-align: center;
-  padding: 3rem 1rem 2rem;
+  padding: 6rem 1rem 5rem;
   background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
               url('/static/kevin_lucie.jpg') center/cover no-repeat;
   border-bottom: 1px solid #ecdfc8;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-deco { font-size: 1.5rem; color: var(--gold-l); letter-spacing: .5rem; }
