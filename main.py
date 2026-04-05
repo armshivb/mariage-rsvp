@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).parent
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "mariage2026")
-COUPLE_NAMES   = os.environ.get("COUPLE_NAMES",   "Kevin & Lucie")
+COUPLE_NAMES   = os.environ.get("COUPLE_NAMES",   "Kévin & Lucie")
 WEDDING_DATE   = os.environ.get("WEDDING_DATE",   "Samedi 5 Septembre 2026")
 WEDDING_PLACE  = os.environ.get("WEDDING_PLACE",  "Cayenne, Guyane")
 
