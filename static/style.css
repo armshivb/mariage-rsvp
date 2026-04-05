@@ -43,7 +43,7 @@ header {
 }
 
 .wedding-info {
-  font-size: .95rem;
+  font-size: .8rem;
   color: var(--mid);
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -51,9 +51,10 @@ header {
 
 .wedding-quote {
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
   color: var(--gold);
-  margin-top: .6rem;
+  margin-top: .5rem;
+  margin-bottom: .2rem;
 }
 
 /* ── Main ─────────────────────────────────────────────────────────── */
