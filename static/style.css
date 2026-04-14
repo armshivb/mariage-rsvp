@@ -1,3 +1,56 @@
+/* ── Loading screen ───────────────────────────────────────────────── */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .6s ease;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-quote {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: var(--gold, #b8986a);
+  margin-bottom: .3rem;
+}
+
+.loading-sub {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: #7a6a55;
+  letter-spacing: .05em;
+  margin-bottom: 2rem;
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.loading-dots span {
+  width: 10px;
+  height: 10px;
+  background: #b8986a;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: .2s; }
+.loading-dots span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: .4; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+
 /* ── Reset & Base ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

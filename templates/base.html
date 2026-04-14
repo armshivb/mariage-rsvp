@@ -10,6 +10,23 @@
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
+  <!-- Écran de chargement -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <p class="loading-quote">Kévin & Lucie</p>
+      <p class="loading-sub">arrivent… ne quittez pas 💍</p>
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      document.getElementById('loading-screen').style.opacity = '0';
+      setTimeout(function() {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 600);
+    });
+  </script>
   <header>
     <h1 class="couple-name">{{ couple }}</h1>
     <p class="wedding-quote">On se dit enfin oui</p>
