@@ -15,6 +15,7 @@ class Guest(Base):
     id = Column(Integer, primary_key=True, index=True)
     prenom = Column(String, nullable=False, default="")
     nom = Column(String, nullable=False, default="")
+    telephone = Column(String, nullable=True, default="")
     code = Column(String, unique=True, nullable=False, index=True)
     response = Column(String, default="pending")  # pending / yes / no
     plus_one = Column(Integer, default=0)          # nombre d'accompagnants

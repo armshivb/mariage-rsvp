@@ -2,7 +2,7 @@
 {% block content %}
 <div class="card">
   <h2>Vous êtes invité·e !</h2>
-  <p class="subtitle">Entrez le code présent sur votre invitation pour confirmer votre présence.</p>
+  <p class="subtitle">Entrez votre <strong>prénom et nom</strong> ou votre <strong>numéro de téléphone</strong> pour accéder à votre invitation.</p>
 
   {% if error %}
   <div class="alert-error">{{ error }}</div>
@@ -10,15 +10,13 @@
 
   <form method="post" action="/">
     <div class="field">
-      <label for="code">Votre code d'invitation</label>
+      <label for="recherche">Prénom Nom ou numéro de téléphone</label>
       <input
         type="text"
-        id="code"
-        name="code"
-        placeholder="Ex : A1B2C3"
+        id="recherche"
+        name="recherche"
+        placeholder="Ex : Marie Dupont ou 0612345678"
         autocomplete="off"
-        autocapitalize="characters"
-        maxlength="6"
         required
       />
     </div>

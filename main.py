@@ -58,11 +58,28 @@ def index(request: Request):
     return tr(request, "index.html")
 
 @app.post("/", response_class=HTMLResponse)
-def index_post(request: Request, code: str = Form(...), db: Session = Depends(get_db)):
-    guest = db.query(Guest).filter(Guest.code == code.strip().upper()).first()
+def index_post(request: Request, recherche: str = Form(...), db: Session = Depends(get_db)):
+    q = recherche.strip()
+    # Recherche par téléphone
+    guest = db.query(Guest).filter(Guest.telephone == q).first()
+    # Recherche par prénom + nom (insensible à la casse)
     if not guest:
-        return tr(request, "index.html", error="Code invalide. Vérifiez votre invitation.")
-    return RedirectResponse(f"/rsvp/{code.strip().upper()}", status_code=302)
+        parts = q.split()
+        if len(parts) >= 2:
+            prenom, nom = parts[0], " ".join(parts[1:])
+            guest = db.query(Guest).filter(
+                Guest.prenom.ilike(prenom),
+                Guest.nom.ilike(nom)
+            ).first()
+            if not guest:
+                # Essayer aussi nom prénom
+                guest = db.query(Guest).filter(
+                    Guest.nom.ilike(parts[0]),
+                    Guest.prenom.ilike(" ".join(parts[1:]))
+                ).first()
+    if not guest:
+        return tr(request, "index.html", error="Aucun invité trouvé. Vérifiez votre prénom, nom ou numéro de téléphone.")
+    return RedirectResponse(f"/rsvp/{guest.code}", status_code=302)
 
 # ── Page RSVP de l'invité ──────────────────────────────────────────────────────
 @app.get("/rsvp/{code}", response_class=HTMLResponse)
@@ -144,11 +161,11 @@ def set_expected(expected: int = Form(...), db: Session = Depends(get_db)):
 
 # ── Admin : ajouter un invité ──────────────────────────────────────────────────
 @app.post("/admin/add-guest")
-def add_guest(prenom: str = Form(...), nom: str = Form(...), db: Session = Depends(get_db)):
+def add_guest(prenom: str = Form(...), nom: str = Form(...), telephone: str = Form(""), db: Session = Depends(get_db)):
     code = secrets.token_hex(3).upper()
     while db.query(Guest).filter(Guest.code == code).first():
         code = secrets.token_hex(3).upper()
-    db.add(Guest(prenom=prenom.strip(), nom=nom.strip(), code=code))
+    db.add(Guest(prenom=prenom.strip(), nom=nom.strip(), telephone=telephone.strip(), code=code))
     db.commit()
     return RedirectResponse("/admin/dashboard", status_code=302)
 

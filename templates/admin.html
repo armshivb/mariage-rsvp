@@ -86,6 +86,7 @@
     <form method="post" action="/admin/add-guest" class="inline-form">
       <input type="text" name="prenom" placeholder="Prénom" required />
       <input type="text" name="nom" placeholder="Nom" required />
+      <input type="text" name="telephone" placeholder="Téléphone (optionnel)" />
       <button type="submit" class="btn-primary">Ajouter</button>
     </form>
   </div>
@@ -99,6 +100,7 @@
         <tr>
           <th>Prénom</th>
           <th>Nom</th>
+          <th>Téléphone</th>
           <th>Code</th>
           <th>Réponse</th>
           <th>Accompagnants</th>
@@ -112,6 +114,7 @@
         <tr class="row-{{ g.response }}">
           <td><strong>{{ g.prenom }}</strong></td>
           <td><strong>{{ g.nom }}</strong></td>
+          <td>{{ g.telephone or "–" }}</td>
           <td><code class="code-badge">{{ g.code }}</code></td>
           <td>
             {% if g.response == "yes" %}
@@ -133,7 +136,7 @@
           </td>
         </tr>
         {% else %}
-        <tr><td colspan="8" style="text-align:center;color:#aaa">Aucun invité pour l'instant.</td></tr>
+        <tr><td colspan="9" style="text-align:center;color:#aaa">Aucun invité pour l'instant.</td></tr>
         {% endfor %}
       </tbody>
     </table>
